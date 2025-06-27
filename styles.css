@@ -932,19 +932,20 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    /* Mobile layout: stack vertically with monkey below text */
+    /* Mobile layout: stack vertically with monkey on top */
     .hero {
         flex-direction: column;
         text-align: center;
     }
     
     .hero-content {
-        order: 1;
+        order: 2;
         margin-bottom: 40px;
     }
     
     .hero-visual {
-        order: 2;
+        order: 1;
+        margin-bottom: 40px;
     }
     
     /* Responsive MonkeyVerse title */
@@ -1438,6 +1439,8 @@ body {
     .cyber-monkey-container {
         width: min(280px, 90vw);
         height: min(280px, 90vw);
+        margin-top: 70px;
+        bottom: 50px;
     }
     
     .pixel-monkey {
