@@ -972,6 +972,54 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Mobile animation performance optimizations */
+    .bg-animation {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        perspective: 1000px;
+        -webkit-perspective: 1000px;
+    }
+    
+    /* Reduce animation complexity on mobile */
+    .matrix-bg::before {
+        animation: pulse 12s ease-in-out infinite;
+        background-image: 
+            radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.08) 0%, transparent 70%);
+    }
+    
+    .circuit-pattern {
+        animation: circuitMove 30s linear infinite;
+        background-size: 75px 75px;
+        opacity: 0.5;
+    }
+    
+    .hex-grid {
+        animation: hexMove 35s linear infinite;
+        background-size: 45px 45px;
+        opacity: 0.3;
+    }
+    
+    /* Simplify particle animations on mobile */
+    .particles::before {
+        animation: particle1 10s linear infinite;
+        width: 1px;
+        height: 1px;
+    }
+    
+    .particles::after {
+        animation: particle2 12s linear infinite;
+        width: 1px;
+        height: 1px;
+    }
+    
+    /* Optimize cyber monkey animations */
+    .cyber-monkey-container {
+        animation: mobileFloat 4s ease-in-out infinite;
+        filter: drop-shadow(0 0 15px rgba(0, 255, 255, 0.4));
+    }
+    
     /* Mobile layout: stack vertically with monkey on top */
     .hero {
         flex-direction: column;
@@ -1083,6 +1131,52 @@ body {
     .data-stream {
         font-size: min(10px, 2.5vw);
     }
+    
+    /* Additional mobile optimizations for very small screens */
+    .bg-animation {
+        display: none; /* Disable background animations on very small screens */
+    }
+    
+    .cyber-monkey-container {
+        animation: none; /* Disable float animation on small screens */
+        filter: none; /* Remove expensive filters */
+    }
+    
+    /* Keep only essential animations */
+    .title-main {
+        animation: none;
+        background: #00ffff;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* These are touch devices (mobile/tablet) */
+    .bg-animation {
+        opacity: 0.5;
+    }
+    
+    .matrix-bg::before {
+        animation-duration: 20s;
+    }
+    
+    .circuit-pattern {
+        animation-duration: 50s;
+    }
+    
+    .hex-grid {
+        animation-duration: 60s;
+    }
+    
+    /* Disable hover effects that don't work on touch */
+    .stat-card:hover,
+    .cyber-monkey-container:hover {
+        transform: none;
+        filter: none;
+    }
 }
 
 /* Cyber Monkey Animations */
@@ -1116,10 +1210,10 @@ body {
 
 @keyframes float {
     0%, 100% { 
-        transform: translate3d(0, 0, 0) rotate(0deg); 
+        transform: translate3d(0, 0, 0) scale(1); 
     }
     50% { 
-        transform: translate3d(0, -12px, 0) rotate(1deg); 
+        transform: translate3d(0, -8px, 0) scale(1.01); 
     }
 }
 
@@ -1132,12 +1226,14 @@ body {
     0% { 
         box-shadow: 
             0 0 30px rgba(0, 255, 255, 0.5),
-            inset 0 0 25px rgba(0, 255, 255, 0.1);
+            inset 0 0 25px rgba(0, 255, 255, 0.1),
+            0 0 60px rgba(0, 255, 255, 0.2);
     }
     100% { 
         box-shadow: 
-            0 0 50px rgba(0, 255, 255, 0.8),
-            inset 0 0 35px rgba(0, 255, 255, 0.2);
+            0 0 50px rgba(0, 255, 255, 0.6),
+            inset 0 0 40px rgba(0, 255, 255, 0.2),
+            0 0 80px rgba(0, 255, 255, 0.3);
     }
 }
 
@@ -1155,9 +1251,10 @@ body {
 }
 
 @keyframes lensFlicker {
-    0%, 90%, 100% { opacity: 0.9; }
-    93%, 97% { opacity: 0.6; }
-    95% { opacity: 1; }
+    0%, 100% { opacity: 0.8; }
+    25% { opacity: 1; }
+    50% { opacity: 0.9; }
+    75% { opacity: 1; }
 }
 
 @keyframes eyeGlow {
@@ -1222,20 +1319,21 @@ body {
 }
 
 @keyframes circuitFlow {
-    0%, 100% { opacity: 0.3; transform: scaleX(0); }
+    0% { opacity: 0.3; transform: scaleX(0); }
     50% { opacity: 1; transform: scaleX(1); }
+    100% { opacity: 0.3; transform: scaleX(0); }
 }
 
 @keyframes nodePulse {
     0%, 100% { 
         opacity: 0.6; 
         transform: scale(1);
-        box-shadow: 0 0 12px rgba(0, 255, 255, 0.8);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
     }
     50% { 
         opacity: 1; 
-        transform: scale(1.4);
-        box-shadow: 0 0 20px rgba(0, 255, 255, 1);
+        transform: scale(1.3);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.9);
     }
 }
 
@@ -1295,390 +1393,6 @@ body {
 
 .cyber-monkey-container.boot-up {
     animation: pixelBootUp 2s ease-out, float 3s ease-in-out infinite 2s;
-}
-
-.monkey-face.pixel-art {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-}
-
-/* Glitch Background Effects */
-.glitch-bg {
-    position: absolute;
-    top: -10%;
-    left: -10%;
-    width: 120%;
-    height: 120%;
-    background: 
-        linear-gradient(90deg, transparent 40%, rgba(0, 255, 255, 0.1) 50%, transparent 60%),
-        linear-gradient(0deg, transparent 40%, rgba(255, 0, 128, 0.1) 50%, transparent 60%);
-    animation: glitchSweep 3s infinite;
-    opacity: 0.7;
-}
-
-.scan-lines {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0, 255, 255, 0.1) 2px,
-        rgba(0, 255, 255, 0.1) 4px
-    );
-    animation: scanMove 2s linear infinite;
-    opacity: 0.3;
-}
-
-.data-fragments {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.2) 0%, transparent 30%),
-        radial-gradient(circle at 80% 70%, rgba(255, 0, 128, 0.2) 0%, transparent 30%);
-    animation: fragmentPulse 4s ease-in-out infinite;
-}
-
-/* Pixel Art Monkey */
-.pixel-monkey {
-    position: relative;
-    width: min(240px, 70vw);
-    height: min(240px, 70vw);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-}
-
-.pixel-head {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.8);
-    border: 2px solid #00ffff;
-    border-radius: 4px;
-    box-shadow: 
-        0 0 30px rgba(0, 255, 255, 0.6),
-        inset 0 0 20px rgba(0, 255, 255, 0.1);
-    animation: pixelGlow 2s ease-in-out infinite alternate;
-}
-
-.pixel-row {
-    display: flex;
-    gap: 2px;
-    justify-content: center;
-}
-
-.pixel {
-    width: min(16px, 4vw);
-    height: min(16px, 4vw);
-    background: transparent;
-    border: 1px solid rgba(0, 255, 255, 0.2);
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.pixel.active {
-    background: #00ffff;
-    box-shadow: 
-        0 0 8px rgba(0, 255, 255, 0.8),
-        inset 0 0 4px rgba(255, 255, 255, 0.3);
-    animation: pixelFlicker 3s infinite;
-}
-
-.pixel.ear {
-    background: #00cccc;
-    animation: pixelFlicker 3s infinite 0.2s;
-}
-
-.pixel.glass {
-    background: rgba(0, 255, 255, 0.3);
-    border: 1px solid #00ffff;
-    box-shadow: 
-        0 0 10px rgba(0, 255, 255, 0.6),
-        inset 0 0 5px rgba(0, 255, 255, 0.2);
-    animation: glassShimmer 2s ease-in-out infinite;
-}
-
-.pixel.eye {
-    background: #ffffff;
-    box-shadow: 
-        0 0 12px rgba(255, 255, 255, 0.9),
-        inset 0 0 6px rgba(0, 255, 255, 0.5);
-    animation: eyeBlink 4s infinite, pixelFlicker 3s infinite 0.5s;
-}
-
-.pixel.nose {
-    background: #00aaaa;
-    animation: pixelFlicker 3s infinite 1s;
-}
-
-.pixel.mouth {
-    background: #ff0080;
-    box-shadow: 0 0 6px rgba(255, 0, 128, 0.6);
-    animation: mouthTwitch 3s ease-in-out infinite;
-}
-
-/* Floating Data Particles */
-.data-particle {
-    position: absolute;
-    font-family: 'Courier New', monospace;
-    font-size: min(14px, 3vw);
-    color: #00ffff;
-    text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
-    animation: dataFloat 4s ease-in-out infinite;
-    animation-delay: var(--delay);
-    pointer-events: none;
-    font-weight: bold;
-}
-
-/* Glitch Effects */
-.pixel-monkey::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: inherit;
-    z-index: -1;
-    animation: glitchOffset 0.1s infinite;
-    opacity: 0.8;
-}
-
-.pixel-monkey::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: inherit;
-    z-index: -2;
-    animation: glitchOffset 0.1s infinite reverse;
-    opacity: 0.6;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .cyber-monkey-container {
-        width: min(280px, 90vw);
-        height: min(280px, 90vw);
-        margin-top: 70px;
-        bottom: 50px;
-    }
-    
-    .pixel-monkey {
-        width: min(200px, 75vw);
-        height: min(200px, 75vw);
-    }
-    
-    .pixel {
-        width: min(14px, 3.5vw);
-        height: min(14px, 3.5vw);
-    }
-    
-    .pixel-head {
-        gap: 1px;
-        padding: 8px;
-    }
-    
-    .pixel-row {
-        gap: 1px;
-    }
-}
-
-@media (max-width: 480px) {
-    .cyber-monkey-container {
-        width: min(240px, 95vw);
-        height: min(240px, 95vw);
-    }
-    
-    .pixel-monkey {
-        width: min(180px, 80vw);
-        height: min(180px, 80vw);
-    }
-    
-    .pixel {
-        width: min(12px, 3vw);
-        height: min(12px, 3vw);
-    }
-    
-    .data-particle {
-        font-size: min(12px, 2.5vw);
-    }
-}
-
-/* Pixel Art Animations */
-@keyframes pixelBootUp {
-    0% {
-        opacity: 0;
-        transform: scale(0.5) rotateY(180deg);
-        filter: brightness(0) drop-shadow(0 0 0px transparent);
-    }
-    25% {
-        opacity: 0.4;
-        transform: scale(0.8) rotateY(135deg);
-        filter: brightness(0.5) drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
-    }
-    50% {
-        opacity: 0.7;
-        transform: scale(1.1) rotateY(90deg);
-        filter: brightness(1.2) drop-shadow(0 0 20px rgba(0, 255, 255, 0.6));
-    }
-    75% {
-        opacity: 0.9;
-        transform: scale(0.95) rotateY(45deg);
-        filter: brightness(1.1) drop-shadow(0 0 25px rgba(0, 255, 255, 0.8));
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) rotateY(0deg);
-        filter: brightness(1) drop-shadow(0 0 20px rgba(0, 255, 255, 0.5));
-    }
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(1deg); }
-}
-
-@keyframes pixelGlow {
-    0% { 
-        box-shadow: 
-            0 0 30px rgba(0, 255, 255, 0.6),
-            inset 0 0 20px rgba(0, 255, 255, 0.1);
-    }
-    100% { 
-        box-shadow: 
-            0 0 50px rgba(0, 255, 255, 0.9),
-            inset 0 0 30px rgba(0, 255, 255, 0.2);
-    }
-}
-
-@keyframes pixelFlicker {
-    0%, 95%, 100% { opacity: 1; }
-    96%, 99% { opacity: 0.8; }
-    97%, 98% { opacity: 0.3; }
-}
-
-@keyframes glassShimmer {
-    0%, 100% { 
-        background: rgba(0, 255, 255, 0.3);
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
-    }
-    50% { 
-        background: rgba(0, 255, 255, 0.5);
-        box-shadow: 0 0 15px rgba(0, 255, 255, 0.9);
-    }
-}
-
-@keyframes eyeBlink {
-    0%, 90%, 100% { 
-        background: #ffffff;
-        box-shadow: 0 0 12px rgba(255, 255, 255, 0.9);
-    }
-    95% { 
-        background: #00ffff;
-        box-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
-    }
-}
-
-@keyframes mouthTwitch {
-    0%, 80%, 100% { 
-        background: #ff0080;
-        transform: scaleX(1);
-    }
-    85%, 95% { 
-        background: #ff40a0;
-        transform: scaleX(1.1);
-    }
-}
-
-@keyframes glitchSweep {
-    0%, 100% { 
-        transform: translateX(-100%) skewX(0deg);
-        opacity: 0;
-    }
-    25% { 
-        transform: translateX(0%) skewX(-5deg);
-        opacity: 0.7;
-    }
-    50% { 
-        transform: translateX(50%) skewX(5deg);
-        opacity: 0.4;
-    }
-    75% { 
-        transform: translateX(100%) skewX(-2deg);
-        opacity: 0.8;
-    }
-}
-
-@keyframes scanMove {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100%); }
-}
-
-@keyframes fragmentPulse {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.6; }
-}
-
-@keyframes dataFloat {
-    0% { 
-        transform: translate(0, 0) rotate(0deg);
-        opacity: 0;
-    }
-    20% { 
-        opacity: 1;
-        transform: translate(calc(var(--x) * 0.3), calc(var(--y) * 0.3)) rotate(5deg);
-    }
-    80% { 
-        opacity: 1;
-        transform: translate(calc(var(--x) * 0.8), calc(var(--y) * 0.8)) rotate(-5deg);
-    }
-    100% { 
-        transform: translate(var(--x), var(--y)) rotate(0deg);
-        opacity: 0;
-    }
-}
-
-@keyframes glitchOffset {
-    0%, 100% { 
-        transform: translate(0, 0);
-        filter: hue-rotate(0deg);
-    }
-    10% { 
-        transform: translate(-2px, 1px);
-        filter: hue-rotate(90deg);
-    }
-    20% { 
-        transform: translate(2px, -1px);
-        filter: hue-rotate(180deg);
-    }
-    30% { 
-        transform: translate(0, 0);
-        filter: hue-rotate(270deg);
-    }
-}
-
-.cyber-monkey-container.boot-up {
-    animation: bootUp 2s ease-out, float 3s ease-in-out infinite 2s;
 }
 
 .monkey-face {
@@ -1821,8 +1535,12 @@ body {
 
 /* Cyber Monkey Animations */
 @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg); 
+    }
+    50% { 
+        transform: translateY(-10px) rotate(1deg); 
+    }
 }
 
 @keyframes bootUp {
@@ -1854,8 +1572,8 @@ body {
 }
 
 @keyframes blink {
-    0%, 90%, 100% { transform: scaleY(1); }
-    95% { transform: scaleY(0.1); }
+    0%, 100% { transform: scaleY(1); }
+    5% { transform: scaleY(0.1); }
 }
 
 @keyframes mouthGlow {
@@ -2382,11 +2100,6 @@ body {
     opacity: 0;
     animation: glowRotate 2s linear infinite;
     transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.play-button:hover .play-glow {
-    opacity: 0.8;
 }
 
 /* Cyber Animations */
@@ -3318,817 +3031,136 @@ body {
     opacity: 1;
 }
 
-/* Animations */
-@keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.7; }
-}
-
-@keyframes circuitMove {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(50px, 50px, 0); }
-}
-
-@keyframes hexMove {
-    0% { transform: translate3d(0, 0, 0); }
-    100% { transform: translate3d(30px, 30px, 0); }
-}
-
-@keyframes particle1 {
-    0% { transform: translate3d(0, 100vh, 0) rotate(0deg); }
-    100% { transform: translate3d(100vw, -100px, 0) rotate(360deg); }
-}
-
-@keyframes particle2 {
-    0% { transform: translate3d(100vw, 100vh, 0) rotate(0deg); }
-    100% { transform: translate3d(-100px, -100px, 0) rotate(-360deg); }
-}
-
-@keyframes glow {
-    0% { box-shadow: 0 0 5px currentColor; }
-    100% { box-shadow: 0 0 20px currentColor; }
-}
-
-@keyframes titleGlow {
-    0% { text-shadow: 0 0 30px rgba(0, 255, 255, 0.3); }
-    100% { text-shadow: 0 0 50px rgba(0, 255, 255, 0.8); }
-}
-
-@keyframes glitch {
-    0% { transform: translate3d(0, 0, 0); }
-    20% { transform: translate3d(-2px, 2px, 0); }
-    40% { transform: translate3d(-2px, -2px, 0); }
-    60% { transform: translate3d(2px, 2px, 0); }
-    80% { transform: translate3d(2px, -2px, 0); }
-    100% { transform: translate3d(0, 0, 0); }
-}
-
-@keyframes glitch-1 {
-    0% { clip-path: inset(40% 0 61% 0); }
-    20% { clip-path: inset(92% 0 1% 0); }
-    40% { clip-path: inset(43% 0 1% 0); }
-    60% { clip-path: inset(25% 0 58% 0); }
-    80% { clip-path: inset(54% 0 7% 0); }
-    100% { clip-path: inset(58% 0 43% 0); }
-}
-
-@keyframes glitch-2 {
-    0% { clip-path: inset(25% 0 58% 0); }
-    20% { clip-path: inset(54% 0 7% 0); }
-    40% { clip-path: inset(58% 0 43% 0); }
-    60% { clip-path: inset(40% 0 61% 0); }
-    80% { clip-path: inset(92% 0 1% 0); }
-    100% { clip-path: inset(43% 0 1% 0); }
-}
-
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes hologramSpin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-}
-
-/* Cyberpunk Intro Animation */
-/* ==============================
-   CYBERPUNK INTRO ANIMATION
-   ============================== */
-
-/* Intro Overlay */
-.intro-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #000000, #0a0a0a, #001122);
-    z-index: 10000;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: all 0.5s ease;
-    overflow: hidden;
-}
-
-.intro-overlay.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-/* Intro Background Effects */
-.intro-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-.intro-particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(2px 2px at 20px 30px, #00FF00, transparent),
-        radial-gradient(2px 2px at 40px 70px, #00FFFF, transparent),
-        radial-gradient(1px 1px at 90px 40px, #FF00FF, transparent),
-        radial-gradient(1px 1px at 130px 80px, #00FF00, transparent),
-        radial-gradient(2px 2px at 160px 30px, #00FFFF, transparent);
-    background-repeat: repeat;
-    background-size: 200px 100px;
-    animation: particleFloat 20s linear infinite;
-    opacity: 0.6;
-}
-
-.intro-scanlines {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        transparent 50%,
-        rgba(0, 255, 0, 0.03) 50%
-    );
-    background-size: 100% 4px;
-    animation: scanlineMove 2s linear infinite;
-}
-
-.intro-glitch-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, 
-        transparent 98%, 
-        rgba(0, 255, 0, 0.05) 100%);
-    background-size: 50px 100%;
-    animation: glitchBg 0.1s linear infinite;
-    opacity: 0;
-}
-
-/* Binary Hacker Mask */
-.binary-mask-container {
-    position: relative;
-    z-index: 5;
-    animation: maskFloat 6s ease-in-out infinite;
-}
-
-.binary-mask {
-    width: 300px;
-    height: 400px;
-    filter: drop-shadow(0 0 20px rgba(0, 255, 0, 0.8));
-    animation: maskTilt 8s ease-in-out infinite;
-}
-
-.binary-text {
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    fill: #00FF00;
-    opacity: 0.9;
-    animation: binaryFlicker 0.1s infinite;
-}
-
-.binary-text:nth-child(2n) {
-    animation-delay: 0.05s;
-}
-
-.binary-text:nth-child(3n) {
-    animation-delay: 0.1s;
-}
-
-/* Mask Eyes Animation */
-.mask-eyes {
-    animation: eyeMovement 4s ease-in-out infinite;
-}
-
-.eye-pupil {
-    animation: eyeBlink 6s infinite;
-}
-
-.eye-glow {
-    animation: eyeGlow 2s ease-in-out infinite alternate;
-}
-
-.left-eye {
-    animation-delay: 0.1s;
-}
-
-.right-eye {
-    animation-delay: 0.3s;
-}
-
-/* Mask Smile Animation */
-.mask-smile {
-    stroke-dasharray: 100;
-    stroke-dashoffset: 100;
-    animation: smileAppear 3s ease-out 2s forwards, smileGlow 2s ease-in-out 5s infinite alternate;
-}
-
-/* Circuit Overlay */
-.circuit-overlay {
-    animation: circuitPulse 3s ease-in-out infinite;
-}
-
-/* Welcome Text */
-.welcome-text-container {
-    position: absolute;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    opacity: 0;
-    animation: textFadeIn 1s ease-out 3s forwards;
-}
-
-.terminal-line {
-    font-family: 'Courier New', monospace;
-    font-size: 24px;
-    color: #00FFFF;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-}
-
-.terminal-prompt {
-    color: #00FF00;
-    font-weight: bold;
-}
-
-.welcome-text {
-    font-weight: 600;
-    letter-spacing: 2px;
-}
-
-.terminal-cursor {
-    color: #00FF00;
-    animation: cursorBlink 1s infinite;
-}
-
-/* Floating Particles */
-.floating-particles {
-       position: absolute;
-    top:  0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 3;
-    pointer-events: none;
-}
-
-.floating-particles .particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: #00FF00;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00FF00;
-    animation: particleFloat2 8s linear infinite;
-}
-
-.floating-particles .particle:nth-child(1) {
-    left: 10%;
-    animation-delay: 0s;
-    animation-duration: 6s;
-}
-
-.floating-particles .particle:nth-child(2) {
-    left: 30%;
-    animation-delay: 1s;
-    animation-duration: 8s;
-}
-
-.floating-particles .particle:nth-child(3) {
-    left: 50%;
-    animation-delay: 2s;
-    animation-duration: 7s;
-}
-
-.floating-particles .particle:nth-child(4) {
-    left: 70%;
-    animation-delay: 3s;
-    animation-duration: 9s;
-}
-
-.floating-particles .particle:nth-child(5) {
-    left: 90%;
-    animation-delay: 4s;
-    animation-duration: 5s;
-}
-
-/* ==============================
-   INTRO ANIMATION KEYFRAMES
-   ============================== */
-
-@keyframes particleFloat {
-    0% { transform: translateY(0) translateX(0); }
-    25% { transform: translateY(-10px) translateX(5px); }
-    50% { transform: translateY(-5px) translateX(-5px); }
-    75% { transform: translateY(-15px) translateX(3px); }
-    100% { transform: translateY(0) translateX(0); }
-}
-
-@keyframes scanlineMove {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100vh); }
-}
-
-@keyframes glitchBg {
-    0%, 90% { opacity: 0; }
-    91%, 100% { opacity: 1; }
-}
-
-@keyframes maskFloat {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    25% { transform: translateY(-10px) scale(1.02); }
-    50% { transform: translateY(-5px) scale(1.01); }
-    75% { transform: translateY(-8px) scale(1.015); }
-}
-
-@keyframes maskTilt {
-    0%, 100% { transform: rotateZ(0deg) rotateY(0deg); }
-    25% { transform: rotateZ(2deg) rotateY(5deg); }
-    50% { transform: rotateZ(-1deg) rotateY(-3deg); }
-    75% { transform: rotateZ(1deg) rotateY(2deg); }
-}
-
-@keyframes binaryFlicker {
-    0%, 95% { opacity: 0.9; }
-    96%, 100% { opacity: 0.3; }
-}
-
-@keyframes eyeMovement {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(2px); }
-    75% { transform: translateX(-2px); }
-}
-
-@keyframes eyeBlink {
-    0%, 95% { transform: scaleY(1); }
-    96%, 100% { transform: scaleY(0.1); }
-}
-
-@keyframes eyeGlow {
-    0% { stroke-width: 1; opacity: 0.6; }
-    100% { stroke-width: 2; opacity: 1; }
-}
-
-@keyframes smileAppear {
-    0% { stroke-dashoffset: 100; }
-    100% { stroke-dashoffset: 0; }
-}
-
-@keyframes smileGlow {
-    0% { filter: drop-shadow(0 0 5px #00FF00); }
-    100% { filter: drop-shadow(0 0 15px #00FF00); }
-}
-
-@keyframes circuitPulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-}
-
-@keyframes textFadeIn {
-    0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
-    100% { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
-
-@keyframes cursorBlink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-}
-
-@keyframes particleFloat2 {
-    0% { 
-        transform: translateY(100vh) translateX(0) rotate(0deg);
-        opacity: 0;
-    }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { 
-        transform: translateY(-20px) translateX(50px) rotate(360deg);
-        opacity: 0;
-    }
-}
-
-/* Glitch Effect for Mask */
-.binary-mask.glitch {
-    animation: maskGlitch 0.3s ease-in-out;
-}
-
-@keyframes maskGlitch {
-    0% { transform: translate(0); filter: hue-rotate(0deg); }
-    20% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
-    40% { transform: translate(-2px, -2px); filter: hue-rotate(180deg); }
-    60% { transform: translate(2px, 2px); filter: hue-rotate(270deg); }
-    80% { transform: translate(2px, -2px); filter: hue-rotate(360deg); }
-    100% { transform: translate(0); filter: hue-rotate(0deg); }
-}
-
-/* Exit Animation */
-.intro-overlay.exit {
-    animation: introExit 1s ease-in-out forwards;
-}
-
-@keyframes introExit {
-    0% { 
-        opacity: 1; 
-        transform: scale(1);
-    }
-    50% { 
-        opacity: 0.5; 
-        transform: scale(1.1);
-    }
-    100% { 
-        opacity: 0; 
-        transform: scale(0.8);
-        visibility: hidden;
-    }
-}
-
-/* New Tron-Style Monkey Components */
-
-/* Circuit Background Pattern */
-.circuit-background {
-    position: absolute;
-    top: -20%;
-    left: -20%;
-    width: 140%;
-    height: 140%;
-    background: 
-        radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-        linear-gradient(45deg, transparent 40%, rgba(0, 255, 255, 0.1) 50%, transparent 60%),
-        linear-gradient(-45deg, transparent 40%, rgba(0, 255, 255, 0.1) 50%, transparent 60%);
-    opacity: 0.3;
-    animation: circuitBgPulse 4s ease-in-out infinite;
-    border-radius: 50%;
-    overflow: hidden;
-    clip-path: circle(50% at 50% 50%);
-}
-
-/* Face Outline - Tron Style */
-.face-outline {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 50% 50% 100% 100%;
-    background: 
-        linear-gradient(145deg, rgba(0, 30, 50, 0.8), rgba(0, 15, 25, 0.9)),
-        radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.1), transparent 70%);
-    box-shadow: 
-        0 0 30px rgba(0, 255, 255, 0.4),
-        inset 0 0 30px rgba(0, 255, 255, 0.1),
-        0 0 60px rgba(0, 255, 255, 0.2);
-    animation: faceGlow 3s ease-in-out infinite alternate;
-}
-
-/* Cyberpunk Glasses - Main Feature */
-.cyber-glasses {
-    position: absolute;
-    top: 35%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 75%;
-    height: 40%;
-    z-index: 10;
-}
-
-.glass-frame {
-    position: absolute;
-    width: 100%;
-    height: 60%;
-    border: 3px solid #00ffff;
-    border-radius: 8px;
-    background: rgba(0, 255, 255, 0.05);
-    box-shadow: 
-        0 0 20px rgba(0, 255, 255, 0.5),
-        inset 0 0 15px rgba(0, 255, 255, 0.1);
-    animation: glassesGlow 2s ease-in-out infinite alternate;
-}
-
-.lens {
-    position: absolute;
-    width: 35%;
-    height: 80%;
-    top: 10%;
-    background: 
-        linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(0, 150, 255, 0.3)),
-        radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), transparent 70%);
-    border: 2px solid #00ffff;
-    border-radius: 6px;
-    box-shadow: 
-        0 0 15px rgba(0, 255, 255, 0.4),
-        inset 0 0 10px rgba(0, 255, 255, 0.2);
-    animation: lensFlicker 3s ease-in-out infinite;
-}
-
-.left-lens {
-    left: 8%;
-}
-
-.right-lens {
-    right: 8%;
-}
-
-.bridge {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 15%;
-    height: 8px;
-    background: linear-gradient(90deg, transparent, #00ffff, transparent);
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-}
-
-.temple {
-    position: absolute;
-    top: 45%;
-    width: 20%;
-    height: 4px;
-    background: linear-gradient(90deg, #00ffff, rgba(0, 255, 255, 0.3));
-    border-radius: 2px;
-    box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
-}
-
-.left-temple {
-    left: -15%;
-    transform: rotate(-10deg);
-}
-
-.right-temple {
-    right: -15%;
-    transform: rotate(10deg);
-}
-
-/* Nose Area - Tron Style */
-.nose-area {
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 20%;
-    height: 15%;
-}
-
-.nostril {
-    position: absolute;
-    width: 8px;
-    height: 12px;
-    background: rgba(0, 255, 255, 0.6);
-    border: 1px solid #00ffff;
-    border-radius: 50% 50% 80% 20%;
-    box-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
-}
-
-.left-nostril {
-    left: 30%;
-    top: 20%;
-}
-
-.right-nostril {
-    right: 30%;
-    top: 20%;
-}
-
-/* Mouth Area - Tron Style */
-.mouth-area {
-    position: absolute;
-    top: 75%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30%;
-    height: 10%;
-}
-
-.mouth-line {
-    position: absolute;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #00ffff, transparent);
-    border-radius: 2px;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-    animation: mouthPulse 2.5s ease-in-out infinite;
-}
-
-/* Circuit Details - Background Pattern */
-.circuit-details {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0.6;
-}
-
-.circuit-details .circuit-line {
-    position: absolute;
-    background: linear-gradient(90deg, transparent, #00ffff, transparent);
-    box-shadow: 0 0 5px rgba(0, 255, 255, 0.4);
-    animation: circuitFlow 3s ease-in-out infinite;
-}
-
-.circuit-details .circuit-line.horizontal {
-    height: 1px;
-    width: 60%;
-}
-
-.circuit-details .circuit-line.vertical {
-    width: 1px;
-    height: 60%;
-}
-
-.circuit-details .circuit-line.top {
-    top: 20%;
-    left: 20%;
-    animation-delay: 0s;
-}
-
-.circuit-details .circuit-line.middle {
-    top: 50%;
-    right: 15%;
-    width: 40%;
-    animation-delay: 1s;
-}
-
-.circuit-details .circuit-line.bottom {
-    bottom: 25%;
-    left: 25%;
-    width: 50%;
-    animation-delay: 2s;
-}
-
-.circuit-details .circuit-line.left {
-    left: 15%;
-    top: 30%;
-    animation-delay: 0.5s;
-}
-
-.circuit-details .circuit-line.right {
-    right: 20%;
-    top: 40%;
-    height: 40%;
-    animation-delay: 1.5s;
-}
-
-.circuit-node {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: #00ffff;
-    border-radius: 50%;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
-    animation: nodePulse 2s ease-in-out infinite;
-}
-
-.circuit-node.top-left {
-    top: 20%;
-    left: 20%;
-    animation-delay: 0s;
-}
-
-.circuit-node.top-right {
-    top: 25%;
-    right: 20%;
-    animation-delay: 0.5s;
-}
-
-.circuit-node.bottom-left {
-    bottom: 30%;
-    left: 25%;
-    animation-delay: 1s;
-}
-
-.circuit-node.bottom-right {
-    bottom: 25%;
-    right: 25%;
-    animation-delay: 1.5s;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .cyber-monkey-container {
-        width: min(250px, 85vw);
-        height: min(250px, 85vw);
-    }
-    
-    .monkey-head {
-        width: min(200px, 75vw);
-        height: min(200px, 75vw);
-    }
-    
-    .ear {
-        width: min(40px, 10vw);
-        height: min(50px, 12vw);
-    }
-    
-    .glass-frame {
-        border-width: 2px;
-    }
-    
-    .lens {
-        border-width: 1px;
-    }
-}
-
-@media (max-width: 480px) {
-    .cyber-monkey-container {
-        width: min(200px, 90vw);
-        height: min(200px, 90vw);
-    }
-    
-    .monkey-head {
-        width: min(160px, 80vw);
-        height: min(160px, 80vw);
-    }
-    
-    .ear {
-        width: min(35px, 8vw);
-        height: min(45px, 10vw);
-    }
-}
-
-/* New Tron-Style Animations */
-@keyframes circuitBgPulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-}
-
-@keyframes faceGlow {
-    0% { 
-        box-shadow: 
-            0 0 30px rgba(0, 255, 255, 0.4),
-            inset 0 0 30px rgba(0, 255, 255, 0.1),
-            0 0 60px rgba(0, 255, 255, 0.2);
-    }
-    100% { 
-        box-shadow: 
-            0 0 50px rgba(0, 255, 255, 0.6),
-            inset 0 0 40px rgba(0, 255, 255, 0.2),
-            0 0 80px rgba(0, 255, 255, 0.3);
-    }
-}
-
-@keyframes glassesGlow {
-    0% { 
-        box-shadow: 
-            0 0 20px rgba(0, 255, 255, 0.5),
-            inset 0 0 15px rgba(0, 255, 255, 0.1);
-    }
-    100% { 
-        box-shadow: 
-            0 0 35px rgba(0, 255, 255, 0.8),
-            inset 0 0 25px rgba(0, 255, 255, 0.2);
-    }
-}
-
-@keyframes lensFlicker {
-    0%, 100% { opacity: 0.8; }
-    25% { opacity: 1; }
-    50% { opacity: 0.9; }
-    75% { opacity: 1; }
-}
-
-@keyframes mouthPulse {
-    0%, 100% { opacity: 0.6; transform: scaleX(1); }
-    50% { opacity: 1; transform: scaleX(1.1); }
-}
-
-@keyframes circuitFlow {
-    0% { opacity: 0.3; transform: scaleX(0); }
-    50% { opacity: 1; transform: scaleX(1); }
-    100% { opacity: 0.3; transform: scaleX(0); }
-}
-
-@keyframes nodePulse {
+/* Mobile-specific animation optimizations */
+@keyframes mobileFloat {
     0%, 100% { 
-        opacity: 0.6; 
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+        transform: translate3d(0, 0, 0) scale(1); 
     }
     50% { 
-        opacity: 1; 
-        transform: scale(1.3);
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.9);
+        transform: translate3d(0, -8px, 0) scale(1.01); 
+    }
+}
+
+/* iOS Safari specific optimizations */
+@supports (-webkit-touch-callout: none) {
+    .bg-animation,
+    .cyber-monkey-container,
+    .particles,
+    .matrix-bg,
+    .circuit-pattern,
+    .hex-grid {
+        -webkit-transform: translateZ(0);
+        -webkit-backface-visibility: hidden;
+        -webkit-perspective: 1000px;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+    }
+    
+    /* Reduce animation frequency on iOS */
+    @media (max-width: 768px) {
+        .matrix-bg::before {
+            animation: pulse 15s ease-in-out infinite;
+        }
+        
+        .circuit-pattern {
+            animation: circuitMove 40s linear infinite;
+        }
+        
+        .hex-grid {
+            animation: hexMove 45s linear infinite;
+        }
+        
+        /* Disable some intensive animations on very small screens */
+        .particles::before,
+        .particles::after {
+            animation: none;
+            opacity: 0.3;
+        }
+        
+        /* Simplify visor animations */
+        .visor-lens,
+        .visor-frame {
+            animation: none !important;
+        }
+        
+        /* Reduce glow effects that are GPU intensive */
+        .cyber-monkey-container {
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+        }
+    }
+}
+
+/* Low power mode detection and optimization */
+@media (prefers-reduced-motion: reduce), (update: slow) {
+    /* Device is in low power mode or prefers reduced motion */
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    .bg-animation,
+    .particles,
+    .matrix-bg::before,
+    .circuit-pattern,
+    .hex-grid {
+        animation: none !important;
+        opacity: 0.3;
+    }
+    
+    .cyber-monkey-container {
+        animation: none !important;
+        filter: none !important;
+    }
+    
+    /* Show static versions of animated elements */
+    .title-main {
+        animation: none !important;
+        text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    }
+}
+
+/* Specific iPhone optimizations */
+@supports (-webkit-touch-callout: none) and (max-width: 768px) {
+    /* This targets iOS devices specifically */
+    
+    /* Use simpler animations that iOS handles better */
+    .cyber-monkey-container {
+        animation: iosFloat 6s ease-in-out infinite;
+    }
+    
+    /* Reduce the number of background layers */
+    .hex-grid,
+    .circuit-pattern {
+        display: none;
+    }
+    
+    /* Keep only the essential matrix background */
+    .matrix-bg::before {
+        animation: iosPulse 10s ease-in-out infinite;
+        background-image: radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 60%);
+    }
+    
+    /* Disable particle effects entirely */
+    .particles {
+        display: none;
+    }
+}
+
+@keyframes iosFloat {
+    0%, 100% { 
+        transform: translate3d(0, 0, 0); 
+    }
+    50% { 
+        transform: translate3d(0, -5px, 0); 
+    }
+}
+
+@keyframes iosPulse {
+    0%, 100% { 
+        opacity: 0.3; 
+    }
+    50% { 
+        opacity: 0.6; 
     }
 }
