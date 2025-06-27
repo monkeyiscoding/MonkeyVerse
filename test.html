@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MonkeyVerse Diagnostic</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #000;
+            color: #00ff00;
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #00ff00;
+            border-radius: 5px;
+        }
+        .success { color: #00ff00; }
+        .error { color: #ff0000; }
+    </style>
+</head>
+<body>
+    <h1>🐒 MonkeyVerse Diagnostic Test</h1>
+    
+    <div class="test-item">
+        <h3>CSS Loading Test</h3>
+        <div id="cssTest">Testing...</div>
+    </div>
+    
+    <div class="test-item">
+        <h3>JavaScript Loading Test</h3>
+        <div id="jsTest">Testing...</div>
+    </div>
+    
+    <div class="test-item">
+        <h3>Font Loading Test</h3>
+        <div id="fontTest" style="font-family: 'Orbitron', sans-serif;">Testing Orbitron Font...</div>
+    </div>
+    
+    <div class="test-item">
+        <h3>Browser Console Errors</h3>
+        <div id="consoleTest">Check browser console for errors...</div>
+    </div>
+
+    <script>
+        console.log('🚀 Diagnostic script loaded');
+        
+        // Test CSS
+        document.getElementById('cssTest').innerHTML = '<span class="success">✓ CSS is loading</span>';
+        
+        // Test JS
+        document.getElementById('jsTest').innerHTML = '<span class="success">✓ JavaScript is working</span>';
+        
+        // Test for any errors
+        window.addEventListener('error', function(e) {
+            console.error('Error detected:', e.error);
+            document.getElementById('consoleTest').innerHTML = '<span class="error">❌ Error detected: ' + e.message + '</span>';
+        });
+        
+        // Test if main CSS file exists
+        fetch('./styles.css')
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('cssTest').innerHTML += '<br><span class="success">✓ styles.css file accessible</span>';
+                } else {
+                    document.getElementById('cssTest').innerHTML += '<br><span class="error">❌ styles.css not accessible</span>';
+                }
+            })
+            .catch(err => {
+                document.getElementById('cssTest').innerHTML += '<br><span class="error">❌ Error loading styles.css: ' + err.message + '</span>';
+            });
+            
+        // Test if main JS file exists
+        fetch('./script.js')
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('jsTest').innerHTML += '<br><span class="success">✓ script.js file accessible</span>';
+                } else {
+                    document.getElementById('jsTest').innerHTML += '<br><span class="error">❌ script.js not accessible</span>';
+                }
+            })
+            .catch(err => {
+                document.getElementById('jsTest').innerHTML += '<br><span class="error">❌ Error loading script.js: ' + err.message + '</span>';
+            });
+            
+        setTimeout(() => {
+            if (document.getElementById('consoleTest').textContent === 'Check browser console for errors...') {
+                document.getElementById('consoleTest').innerHTML = '<span class="success">✓ No JavaScript errors detected</span>';
+            }
+        }, 2000);
+    </script>
+</body>
+</html>

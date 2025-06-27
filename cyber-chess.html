@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Chess - MonkeyVerse</title>
+    <link rel="stylesheet" href="cyber-chess.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="cyber-bg">
+        <div class="matrix-rain"></div>
+        <div class="circuit-lines"></div>
+        <div class="data-streams"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="game-header">
+        <div class="header-content">
+            <a href="index.html" class="back-button">
+                <div class="back-icon">←</div>
+                <span>Back to MonkeyVerse</span>
+            </a>
+            <h1 class="game-title">
+                <span class="title-cyber">CYBER</span>
+                <span class="title-chess">CHESS</span>
+            </h1>
+            <div class="game-stats">
+                <div class="stat-item">
+                    <span class="stat-label">XP</span>
+                    <span class="stat-value" id="playerXP">2,450</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Rank</span>
+                    <span class="stat-value" id="playerRank">Hacker</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Game Start Modal -->
+    <div class="game-start-modal" id="gameStartModal">
+        <!-- Hacker Terminal Background -->
+        <div class="hacker-terminal-bg">
+            <div class="terminal-lines">
+                <div class="terminal-line">> ssh user@cyberchess.matrix</div>
+                <div class="terminal-line">Connecting to secure server...</div>
+                <div class="terminal-line">Connection established.</div>
+                <div class="terminal-line">> initialize chess.exe</div>
+                <div class="terminal-line">Loading neural network...</div>
+                <div class="terminal-line">AI opponents ready.</div>
+                <div class="terminal-line">> select game_mode --interactive</div>
+            </div>
+            <div class="terminal-cursor">_</div>
+        </div>
+        
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="cyber-logo">
+                    <div class="logo-brackets">[</div>
+                    <div class="logo-text">CYBER CHESS</div>
+                    <div class="logo-brackets">]</div>
+                </div>
+                <div class="connection-status">
+                    <span class="status-dot"></span>
+                    <span class="status-text">NEURAL LINK ACTIVE</span>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <div class="game-mode-selection">
+                    <div class="section-header">
+                        <span class="section-prompt">$</span>
+                        <h3>SELECT_GAME_MODE</h3>
+                    </div>
+                    <div class="mode-options">
+                        <label class="mode-option">
+                            <input type="radio" name="startGameMode" value="bullet" />
+                            <div class="mode-card">
+                                <div class="mode-icon-container">
+                                    <div class="mode-icon-bg"></div>
+                                    <div class="mode-icon">⚡</div>
+                                </div>
+                                <div class="mode-info">
+                                    <span class="mode-name">BULLET_MODE</span>
+                                    <span class="mode-time">TIME_LIMIT: 1+0 MIN</span>
+                                    <span class="mode-desc">Lightning fast execution</span>
+                                </div>
+                                <div class="selection-indicator"></div>
+                            </div>
+                        </label>
+                        <label class="mode-option">
+                            <input type="radio" name="startGameMode" value="blitz" checked />
+                            <div class="mode-card">
+                                <div class="mode-icon-container">
+                                    <div class="mode-icon-bg"></div>
+                                    <div class="mode-icon">⟐</div>
+                                </div>
+                                <div class="mode-info">
+                                    <span class="mode-name">BLITZ_MODE</span>
+                                    <span class="mode-time">TIME_LIMIT: 10+0 MIN</span>
+                                    <span class="mode-desc">Rapid tactical combat</span>
+                                </div>
+                                <div class="selection-indicator"></div>
+                            </div>
+                        </label>
+                        <label class="mode-option">
+                            <input type="radio" name="startGameMode" value="rapid" />
+                            <div class="mode-card">
+                                <div class="mode-icon-container">
+                                    <div class="mode-icon-bg"></div>
+                                    <div class="mode-icon">◈</div>
+                                </div>
+                                <div class="mode-info">
+                                    <span class="mode-name">RAPID_MODE</span>
+                                    <span class="mode-time">TIME_LIMIT: 30+0 MIN</span>
+                                    <span class="mode-desc">Strategic deep analysis</span>
+                                </div>
+                                <div class="selection-indicator"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="opponent-selection">
+                    <div class="section-header">
+                        <span class="section-prompt">$</span>
+                        <h3>INITIALIZE_OPPONENT</h3>
+                    </div>
+                    <div class="opponent-options">
+                        <label class="opponent-option">
+                            <input type="radio" name="opponent" value="novice" />
+                            <div class="opponent-card">
+                                <div class="opponent-avatar-container">
+                                    <div class="avatar-frame"></div>
+                                    <div class="opponent-avatar">◯</div>
+                                    <div class="skill-level level-1"></div>
+                                </div>
+                                <div class="opponent-info">
+                                    <span class="opponent-name">NOVICE_AI</span>
+                                    <span class="opponent-rating">RATING: 1200</span>
+                                    <span class="opponent-desc">Basic neural patterns</span>
+                                </div>
+                                <div class="opponent-status">
+                                    <span class="status-label">STATUS:</span>
+                                    <span class="status-value">ONLINE</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="opponent-option">
+                            <input type="radio" name="opponent" value="hacker" />
+                            <div class="opponent-card">
+                                <div class="opponent-avatar-container">
+                                    <div class="avatar-frame"></div>
+                                    <div class="opponent-avatar">◎</div>
+                                    <div class="skill-level level-2"></div>
+                                </div>
+                                <div class="opponent-info">
+                                    <span class="opponent-name">HACKER_AI</span>
+                                    <span class="opponent-rating">RATING: 1500</span>
+                                    <span class="opponent-desc">Adaptive algorithms</span>
+                                </div>
+                                <div class="opponent-status">
+                                    <span class="status-label">STATUS:</span>
+                                    <span class="status-value">ACTIVE</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="opponent-option">
+                            <input type="radio" name="opponent" value="strategist" checked />
+                            <div class="opponent-card">
+                                <div class="opponent-avatar-container">
+                                    <div class="avatar-frame"></div>
+                                    <div class="opponent-avatar">◉</div>
+                                    <div class="skill-level level-3"></div>
+                                </div>
+                                <div class="opponent-info">
+                                    <span class="opponent-name">STRATEGIST_AI</span>
+                                    <span class="opponent-rating">RATING: 1850</span>
+                                    <span class="opponent-desc">Advanced tactics engine</span>
+                                </div>
+                                <div class="opponent-status">
+                                    <span class="status-label">STATUS:</span>
+                                    <span class="status-value">READY</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label class="opponent-option">
+                            <input type="radio" name="opponent" value="matrix" />
+                            <div class="opponent-card">
+                                <div class="opponent-avatar-container">
+                                    <div class="avatar-frame matrix-frame"></div>
+                                    <div class="opponent-avatar">⬢</div>
+                                    <div class="skill-level level-4"></div>
+                                </div>
+                                <div class="opponent-info">
+                                    <span class="opponent-name">THE_MATRIX</span>
+                                    <span class="opponent-rating">RATING: 2200</span>
+                                    <span class="opponent-desc">Quantum consciousness</span>
+                                </div>
+                                <div class="opponent-status">
+                                    <span class="status-label">STATUS:</span>
+                                    <span class="status-value matrix-status">AWAKENED</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="cyber-abilities-info">
+                    <div class="section-header">
+                        <span class="section-prompt">$</span>
+                        <h3>AVAILABLE_EXPLOITS</h3>
+                    </div>
+                    <div class="abilities-preview">
+                        <div class="ability-item">
+                            <div class="ability-icon">⚡</div>
+                            <div class="ability-details">
+                                <span class="ability-name">HACKER_MOVE</span>
+                                <span class="ability-cmd">./exploit --move</span>
+                            </div>
+                        </div>
+                        <div class="ability-item">
+                            <div class="ability-icon">◈</div>
+                            <div class="ability-details">
+                                <span class="ability-name">GLITCH_SCAN</span>
+                                <span class="ability-cmd">./scan --hints</span>
+                            </div>
+                        </div>
+                        <div class="ability-item">
+                            <div class="ability-icon">◯</div>
+                            <div class="ability-details">
+                                <span class="ability-name">TIME_EXPLOIT</span>
+                                <span class="ability-cmd">./hack --time</span>
+                            </div>
+                        </div>
+                        <div class="ability-item">
+                            <div class="ability-icon">⬢</div>
+                            <div class="ability-details">
+                                <span class="ability-name">MATRIX_UNDO</span>
+                                <span class="ability-cmd">./revert --state</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="modal-btn secondary" id="backToMenuBtn">
+                    <span class="btn-prompt">$</span>
+                    <span>EXIT</span>
+                </button>
+                <button class="modal-btn primary" id="startGameBtn">
+                    <span class="btn-prompt">></span>
+                    <span>EXECUTE_GAME</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div class="game-container" id="gameContainer" style="display: none;">
+        <!-- Left Panel - Player Info & Controls -->
+        <div class="left-panel">
+            <div class="player-avatar opponent">
+                <div class="avatar-container">
+                    <div class="avatar-image">🤖</div>
+                    <div class="avatar-glow"></div>
+                    <div class="status-indicator" id="opponentStatus"></div>
+                </div>
+                <div class="player-info">
+                    <h3 class="player-name" id="opponentName">The Strategist</h3>
+                    <div class="player-stats">
+                        <span class="rating" id="opponentRating">1850</span>
+                        <span class="difficulty">AI Level 5</span>
+                    </div>
+                </div>
+                <div class="timer-container">
+                    <div class="timer" id="opponentTimer">10:00</div>
+                    <div class="timer-bar">
+                        <div class="timer-fill" id="opponentTimerFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button class="control-btn" id="pauseBtn">
+                    <span class="btn-icon">⏸️</span>
+                    <span>Pause</span>
+                </button>
+                <button class="control-btn" id="undoBtn" disabled>
+                    <span class="btn-icon">↶</span>
+                    <span>Undo</span>
+                </button>
+                <button class="control-btn" id="hintBtn">
+                    <span class="btn-icon">💡</span>
+                    <span>Hint</span>
+                </button>
+                <button class="control-btn special" id="hackerMoveBtn" disabled>
+                    <span class="btn-icon">⚡</span>
+                    <span>Hacker Move</span>
+                </button>
+            </div>
+
+            <div class="move-history">
+                <h4 class="history-title">Move History</h4>
+                <div class="history-list" id="moveHistoryList">
+                    <!-- Moves will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Center - Chess Board -->
+        <div class="board-container">
+            <div class="board-header">
+                <div class="game-mode">
+                    <span class="mode-label">Game Mode:</span>
+                    <span class="mode-value" id="gameMode">Blitz 10+0</span>
+                </div>
+                <div class="turn-indicator">
+                    <span class="turn-label">Turn:</span>
+                    <span class="turn-value" id="currentTurn">White</span>
+                </div>
+            </div>
+            
+            <div class="chess-board" id="chessBoard">
+                <!-- Board squares will be generated by JavaScript -->
+            </div>
+
+            <div class="board-effects">
+                <div class="hologram-overlay"></div>
+                <div class="scanlines"></div>
+                <div class="glitch-effect" id="glitchEffect"></div>
+            </div>
+        </div>
+
+        <!-- Right Panel - Player Info & Status -->
+        <div class="right-panel">
+            <div class="player-avatar player">
+                <div class="avatar-container">
+                    <div class="avatar-image">👨‍💻</div>
+                    <div class="avatar-glow active"></div>
+                    <div class="status-indicator active" id="playerStatus"></div>
+                </div>
+                <div class="player-info">
+                    <h3 class="player-name" id="playerName">CyberHacker</h3>
+                    <div class="player-stats">
+                        <span class="rating" id="playerRating">1650</span>
+                        <span class="streak">Win Streak: 3</span>
+                    </div>
+                </div>
+                <div class="timer-container">
+                    <div class="timer active" id="playerTimer">10:00</div>
+                    <div class="timer-bar">
+                        <div class="timer-fill active" id="playerTimerFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="power-ups">
+                <h4 class="powerup-title">Cyber Abilities</h4>
+                <div class="powerup-list">
+                    <div class="powerup-item available" id="glitchScan">
+                        <div class="powerup-icon">🔍</div>
+                        <div class="powerup-info">
+                            <span class="powerup-name">Glitch Scan</span>
+                            <span class="powerup-desc">Reveal best move</span>
+                        </div>
+                        <div class="powerup-cooldown">Ready</div>
+                    </div>
+                    <div class="powerup-item" id="digitalFog">
+                        <div class="powerup-icon">🌫️</div>
+                        <div class="powerup-info">
+                            <span class="powerup-name">Digital Fog</span>
+                            <span class="powerup-desc">Scramble board</span>
+                        </div>
+                        <div class="powerup-cooldown">5 turns</div>
+                    </div>
+                    <div class="powerup-item" id="timeHack">
+                        <div class="powerup-icon">⏰</div>
+                        <div class="powerup-info">
+                            <span class="powerup-name">Time Hack</span>
+                            <span class="powerup-desc">Steal 30 seconds</span>
+                        </div>
+                        <div class="powerup-cooldown">Used</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-status">
+                <div class="status-panel">
+                    <h4 class="status-title">System Status</h4>
+                    <div class="status-item">
+                        <span class="status-label">Connection:</span>
+                        <span class="status-value online">ONLINE</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">AI Core:</span>
+                        <span class="status-value">ACTIVE</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Encryption:</span>
+                        <span class="status-value secure">SECURE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div class="game-over-modal" id="gameOverModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="gameResult">VICTORY ACHIEVED</h2>
+                <div class="result-icon" id="resultIcon">👑</div>
+            </div>
+            <div class="modal-body">
+                <div class="game-summary">
+                    <div class="summary-item">
+                        <span class="summary-label">Final Score:</span>
+                        <span class="summary-value" id="finalScore">Checkmate</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">XP Gained:</span>
+                        <span class="summary-value xp-gain" id="xpGained">+150 XP</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Game Duration:</span>
+                        <span class="summary-value" id="gameDuration">8:42</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Moves Played:</span>
+                        <span class="summary-value" id="totalMoves">34</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" id="reviewGameBtn">Review Game</button>
+                <button class="modal-btn primary" id="playAgainBtn">Play Again</button>
+                <button class="modal-btn" id="exitGameBtn">Exit to MonkeyVerse</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Game Settings</h2>
+                <button class="close-btn" id="closeSettingsBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <h3>Game Mode</h3>
+                    <div class="setting-options">
+                        <label class="setting-option">
+                            <input type="radio" name="gameMode" value="bullet" />
+                            <span>Bullet (1+0)</span>
+                        </label>
+                        <label class="setting-option">
+                            <input type="radio" name="gameMode" value="blitz" checked />
+                            <span>Blitz (10+0)</span>
+                        </label>
+                        <label class="setting-option">
+                            <input type="radio" name="gameMode" value="rapid" />
+                            <span>Rapid (30+0)</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3>AI Difficulty</h3>
+                    <div class="setting-options">
+                        <label class="setting-option">
+                            <input type="radio" name="difficulty" value="easy" />
+                            <span>The Novice</span>
+                        </label>
+                        <label class="setting-option">
+                            <input type="radio" name="difficulty" value="medium" />
+                            <span>The Hacker</span>
+                        </label>
+                        <label class="setting-option">
+                            <input type="radio" name="difficulty" value="hard" checked />
+                            <span>The Strategist</span>
+                        </label>
+                        <label class="setting-option">
+                            <input type="radio" name="difficulty" value="expert" />
+                            <span>The Matrix</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h3>Visual Effects</h3>
+                    <div class="setting-toggles">
+                        <label class="toggle-option">
+                            <input type="checkbox" id="enableGlitch" checked />
+                            <span>Glitch Effects</span>
+                        </label>
+                        <label class="toggle-option">
+                            <input type="checkbox" id="enableScanlines" checked />
+                            <span>Scanlines</span>
+                        </label>
+                        <label class="toggle-option">
+                            <input type="checkbox" id="enableParticles" checked />
+                            <span>Particle Effects</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn secondary" id="resetSettingsBtn">Reset Defaults</button>
+                <button class="modal-btn primary" id="saveSettingsBtn">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="cyber-chess.js"></script>
+</body>
+</html>
