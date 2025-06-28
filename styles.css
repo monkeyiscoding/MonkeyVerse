@@ -19,7 +19,7 @@ body {
     padding: 0 20px;
 }
 
-/* Animated Background */
+/* Simple Mobile-Friendly Background */
 .bg-animation {
     position: fixed;
     top: 0;
@@ -28,213 +28,212 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
-    /* Performance optimizations */
-    will-change: transform;
-    transform: translateZ(0);
-    backface-visibility: hidden;
+    background: linear-gradient(180deg, #000 0%, #0a0a0a 50%, #000 100%);
 }
 
-.matrix-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
-    opacity: 0.9;
-    /* Performance optimizations */
-    will-change: auto;
-    transform: translateZ(0);
-}
+/* Desktop only - complex animations */
+@media (min-width: 769px) {
+    .matrix-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+        opacity: 0.9;
+    }
 
-.matrix-bg::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(176, 38, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(0, 255, 140, 0.1) 0%, transparent 50%);
-    animation: pulse 8s ease-in-out infinite;
-    /* Performance optimizations */
-    will-change: opacity;
-    transform: translateZ(0);
-}
-
-.circuit-pattern {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        linear-gradient(90deg, transparent 95%, rgba(0, 255, 255, 0.1) 100%),
-        linear-gradient(0deg, transparent 95%, rgba(0, 255, 255, 0.1) 100%);
-    background-size: 50px 50px;
-    animation: circuitMove 20s linear infinite;
-    /* Performance optimizations */
-    will-change: transform;
-    transform: translateZ(0);
-}
-
-.hex-grid {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(circle, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 30px 30px;
-    animation: hexMove 25s linear infinite;
-    /* Performance optimizations */
-    will-change: transform;
-    transform: translateZ(0);
-}
-
-.particles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Performance optimizations */
-    will-change: auto;
-    transform: translateZ(0);
-}
-
-.particles::before,
-.particles::after {
-    content: '';
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: #00ffff;
-    border-radius: 50%;
-    animation: particle1 6s linear infinite, glow 2s ease-in-out infinite alternate;
-    /* Performance optimizations */
-    will-change: transform, box-shadow;
-    transform: translateZ(0);
-}
-
-.particles::after {
-    animation: particle2 8s linear infinite, glow 3s ease-in-out infinite alternate;
-    background: #b026ff;
-}
-
-/* Mobile-optimized background animations */
-@media (max-width: 1024px) {
-    /* Reduce animation complexity on tablets and below */
     .matrix-bg::before {
-        animation: pulse 12s ease-in-out infinite;
-    }
-    
-    .circuit-pattern {
-        animation: circuitMove 30s linear infinite;
-    }
-    
-    .hex-grid {
-        animation: hexMove 35s linear infinite;
-    }
-    
-    .particles::before,
-    .particles::after {
-        animation: particle1 10s linear infinite;
-    }
-}
-
-@media (max-width: 768px) {
-    /* Simplified animations for mobile devices */
-    .circuit-pattern {
-        background-size: 80px 80px;
-        animation: circuitMove 40s linear infinite;
-    }
-    
-    .hex-grid {
-        background-size: 60px 60px;
-        animation: hexMove 45s linear infinite;
-    }
-    
-    .particles::before,
-    .particles::after {
-        width: 1px;
-        height: 1px;
-        animation: mobileParticle 15s linear infinite;
-    }
-    
-    .particles::after {
-        animation-delay: 7.5s;
-    }
-}
-
-@media (max-width: 480px) {
-    /* Static background for very small devices to prevent performance issues */
-    .matrix-bg::before {
-        animation: none;
-        background-image: 
-            radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.08) 0%, transparent 60%),
-            radial-gradient(circle at 70% 70%, rgba(176, 38, 255, 0.08) 0%, transparent 60%);
-    }
-    
-    .circuit-pattern {
-        animation: none;
-        background-size: 100px 100px;
-    }
-    
-    .hex-grid {
-        animation: none;
-        background-size: 80px 80px;
-    }
-    
-    .particles::before,
-    .particles::after {
-        display: none; /* Remove particles completely on small devices */
-    }
-}
-
-/* Respect user's motion preferences */
-@media (prefers-reduced-motion: reduce) {
-    .matrix-bg::before,
-    .circuit-pattern,
-    .hex-grid,
-    .particles::before,
-    .particles::after {
-        animation: none !important;
-    }
-    
-    .matrix-bg::before {
-        background-image: 
-            radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.08) 0%, transparent 60%),
-            radial-gradient(circle at 70% 70%, rgba(176, 38, 255, 0.08) 0%, transparent 60%);
-    }
-}
-
-/* Additional performance optimization for older devices */
-@media (max-resolution: 150dpi) and (max-width: 768px) {
-    .bg-animation {
-        display: none;
-    }
-    
-    body {
-        background: linear-gradient(180deg, #000 0%, #0a0a0a 50%, #000 100%);
-        background-attachment: fixed;
-    }
-    
-    body::before {
         content: '';
-        position: fixed;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            radial-gradient(circle at 20% 20%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(176, 38, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 40% 60%, rgba(0, 255, 140, 0.1) 0%, transparent 50%);
+        animation: pulse 8s ease-in-out infinite;
+    }
+
+    .circuit-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            linear-gradient(90deg, transparent 95%, rgba(0, 255, 255, 0.1) 100%),
+            linear-gradient(0deg, transparent 95%, rgba(0, 255, 255, 0.1) 100%);
+        background-size: 50px 50px;
+        animation: circuitMove 20s linear infinite;
+    }
+
+    .hex-grid {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            radial-gradient(circle, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+        background-size: 30px 30px;
+        animation: hexMove 25s linear infinite;
+    }
+
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .particles::before,
+    .particles::after {
+        content: '';
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #00ffff;
+        border-radius: 50%;
+        animation: particle1 6s linear infinite, glow 2s ease-in-out infinite alternate;
+    }
+
+    .particles::after {
+        animation: particle2 8s linear infinite, glow 3s ease-in-out infinite alternate;
+        background: #b026ff;
+    }
+}
+
+/* Mobile - Light Hacker-Themed Animations */
+@media (max-width: 768px) {
+    .bg-animation {
+        background: linear-gradient(180deg, #000 0%, #0a0a0a 30%, #000 70%, #000 100%);
+    }
+    
+    /* Mobile-specific light animations */
+    .bg-animation::before {
+        content: '';
+        position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         background: 
-            radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
-            radial-gradient(circle at 75% 75%, rgba(176, 38, 255, 0.05) 0%, transparent 50%);
-        z-index: -1;
-        pointer-events: none;
+            radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.08) 0%, transparent 40%),
+            radial-gradient(circle at 75% 75%, rgba(176, 38, 255, 0.08) 0%, transparent 40%);
+        animation: mobilePulse 8s ease-in-out infinite;
+        z-index: 1;
+    }
+    
+    /* Mobile matrix code rain effect */
+    .bg-animation::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+            linear-gradient(90deg, transparent 96%, rgba(0, 255, 255, 0.15) 98%, transparent 100%),
+            linear-gradient(0deg, transparent 96%, rgba(0, 255, 255, 0.15) 98%, transparent 100%);
+        background-size: 120px 120px;
+        animation: mobileMatrix 20s linear infinite;
+        z-index: 2;
+    }
+    
+    /* Mobile hacker dots */
+    .mobile-hacker-dots {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+    }
+    
+    .mobile-hacker-dots::before,
+    .mobile-hacker-dots::after {
+        content: '';
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(0, 255, 255, 0.8);
+        border-radius: 50%;
+        box-shadow: 
+            0 0 15px rgba(0, 255, 255, 0.6),
+            0 0 25px rgba(0, 255, 255, 0.3);
+        animation: mobileHackerDot 8s ease-in-out infinite;
+    }
+    
+    .mobile-hacker-dots::before {
+        top: 15%;
+        left: 8%;
+        animation-delay: 0s;
+    }
+    
+    .mobile-hacker-dots::after {
+        top: 75%;
+        right: 12%;
+        background: rgba(176, 38, 255, 0.8);
+        box-shadow: 
+            0 0 15px rgba(176, 38, 255, 0.6),
+            0 0 25px rgba(176, 38, 255, 0.3);
+        animation-delay: 4s;
+    }
+    
+    /* Mobile scan lines effect */
+    .mobile-scan-lines {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 4;
+        opacity: 0.3;
+    }
+    
+    .mobile-scan-lines::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(0, 255, 255, 0.8) 50%, 
+            transparent 100%);
+        animation: mobileScanLine 12s ease-in-out infinite;
+    }
+    
+    /* Mobile binary text */
+    .mobile-binary {
+        position: absolute;
+        top: 10%;
+        right: 5%;
+        font-family: 'Courier New', monospace;
+        font-size: 8px;
+        color: rgba(0, 255, 255, 0.4);
+        z-index: 5;
+        animation: mobileBinaryFlicker 3s ease-in-out infinite;
+    }
+    
+    .mobile-binary::before {
+        content: '01001000 01000001 01000011 01001011';
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .mobile-binary::after {
+        content: '01000101 01010010 00100000';
+        display: block;
+    }
+    
+    /* Ensure desktop animations are hidden on mobile */
+    .matrix-bg,
+    .circuit-pattern,
+    .hex-grid,
+    .particles {
+        display: none !important;
     }
 }
 
@@ -3500,6 +3499,82 @@ body {
     100% { 
         transform: translate(50vw, -100px) scale(0.8);
         opacity: 0;
+    }
+}
+
+@keyframes mobilePulse {
+    0%, 100% { 
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.7;
+        transform: scale(1.02);
+    }
+}
+
+@keyframes mobileMatrix {
+    0% { 
+        transform: translate(0, 0);
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% { 
+        transform: translate(20px, 20px);
+        opacity: 0.5;
+    }
+}
+
+@keyframes mobileHackerDot {
+    0%, 100% { 
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    25% {
+        opacity: 0.9;
+        transform: scale(1.3);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+    75% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes mobileScanLine {
+    0% {
+        top: 0%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+@keyframes mobileBinaryFlicker {
+    0%, 100% { 
+        opacity: 0.3;
+    }
+    25% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.1;
+    }
+    75% {
+        opacity: 0.6;
     }
 }
 

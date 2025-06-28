@@ -5,116 +5,63 @@ console.log('🚀 MonkeyVerse script.js loaded successfully!');
 // MOBILE PERFORMANCE OPTIMIZATION
 // ======================================================
 
-// Detect device performance and apply optimizations
+// Simple mobile detection and optimization
 function initMobileOptimizations() {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    const isLowPerformance = checkLowPerformanceDevice();
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
     
-    if (isMobile || isLowPerformance) {
-        console.log('📱 Mobile/Low-performance device detected, applying optimizations...');
+    if (isMobile) {
+        console.log('📱 Mobile device detected, disabling complex animations...');
         
-        // Add performance optimization class to body
+        // Add mobile optimization class
         document.body.classList.add('mobile-optimized');
         
-        // Reduce animation complexity
-        optimizeBackgroundAnimations();
-        
-        // Monitor performance and adjust
-        if (isMobile) {
-            monitorPerformance();
-        }
+        // Completely disable background animations on mobile
+        disableBackgroundAnimations();
     }
 }
 
-function checkLowPerformanceDevice() {
-    // Check for performance indicators
-    const lowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
-    const slowConnection = navigator.connection && 
-        (navigator.connection.effectiveType === 'slow-2g' || 
-         navigator.connection.effectiveType === '2g' ||
-         navigator.connection.effectiveType === '3g');
-    const lowHardware = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
-    
-    return lowMemory || slowConnection || lowHardware;
-}
-
-function optimizeBackgroundAnimations() {
-    // Add CSS class for static backgrounds on low-performance devices
+function disableBackgroundAnimations() {
+    // Create style to disable desktop animations but keep mobile hacker effects
     const style = document.createElement('style');
     style.textContent = `
-        .mobile-optimized .matrix-bg::before,
+        .mobile-optimized .matrix-bg,
         .mobile-optimized .circuit-pattern,
-        .mobile-optimized .hex-grid {
-            animation-play-state: paused !important;
-        }
-        
-        .mobile-optimized .particles::before,
-        .mobile-optimized .particles::after {
+        .mobile-optimized .hex-grid,
+        .mobile-optimized .particles {
             display: none !important;
         }
         
-        /* Fallback background for optimized mode */
-        .mobile-optimized .bg-animation {
-            background: linear-gradient(180deg, #000 0%, #0a0a0a 50%, #000 100%);
+        /* Ensure mobile animations are visible and working */
+        .mobile-optimized .mobile-hacker-dots,
+        .mobile-optimized .mobile-scan-lines,
+        .mobile-optimized .mobile-binary {
+            display: block !important;
         }
         
-        .mobile-optimized .bg-animation::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(176, 38, 255, 0.05) 0%, transparent 50%);
-            z-index: 1;
+        /* Mobile background keeps its hacker animations */
+        .mobile-optimized .bg-animation {
+            background: linear-gradient(180deg, #000 0%, #0a0a0a 30%, #000 70%, #000 100%) !important;
+        }
+        
+        /* Ensure mobile-specific pseudo-elements work */
+        .mobile-optimized .bg-animation::before,
+        .mobile-optimized .bg-animation::after {
+            display: block !important;
+        }
+        
+        /* Only reduce heavy animations for very small screens */
+        @media (max-width: 480px) {
+            .mobile-optimized .mobile-hacker-dots::before,
+            .mobile-optimized .mobile-hacker-dots::after {
+                animation-duration: 12s !important;
+            }
+            
+            .mobile-optimized .bg-animation::after {
+                animation-duration: 30s !important;
+            }
         }
     `;
     document.head.appendChild(style);
-}
-
-function monitorPerformance() {
-    let frameCount = 0;
-    let lastTime = performance.now();
-    let fps = 60;
-    
-    function measureFPS() {
-        frameCount++;
-        const currentTime = performance.now();
-        
-        if (currentTime >= lastTime + 1000) {
-            fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
-            frameCount = 0;
-            lastTime = currentTime;
-            
-            // If FPS drops below 30, disable all animations
-            if (fps < 30) {
-                console.log(`⚠️ Low FPS detected (${fps}), disabling animations...`);
-                document.body.classList.add('low-performance');
-                
-                const lowPerfStyle = document.createElement('style');
-                lowPerfStyle.textContent = `
-                    .low-performance * {
-                        animation: none !important;
-                        transition: none !important;
-                    }
-                    .low-performance .bg-animation {
-                        display: none !important;
-                    }
-                `;
-                document.head.appendChild(lowPerfStyle);
-                return; // Stop monitoring
-            }
-        }
-        
-        requestAnimationFrame(measureFPS);
-    }
-    
-    // Start monitoring after page load
-    setTimeout(() => {
-        requestAnimationFrame(measureFPS);
-    }, 2000);
 }
 
 // Initialize optimizations when DOM is ready
