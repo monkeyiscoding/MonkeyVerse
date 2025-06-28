@@ -1,6 +1,125 @@
 // Script loaded check
 console.log('🚀 MonkeyVerse script.js loaded successfully!');
 
+// ======================================================
+// MOBILE PERFORMANCE OPTIMIZATION
+// ======================================================
+
+// Detect device performance and apply optimizations
+function initMobileOptimizations() {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isLowPerformance = checkLowPerformanceDevice();
+    
+    if (isMobile || isLowPerformance) {
+        console.log('📱 Mobile/Low-performance device detected, applying optimizations...');
+        
+        // Add performance optimization class to body
+        document.body.classList.add('mobile-optimized');
+        
+        // Reduce animation complexity
+        optimizeBackgroundAnimations();
+        
+        // Monitor performance and adjust
+        if (isMobile) {
+            monitorPerformance();
+        }
+    }
+}
+
+function checkLowPerformanceDevice() {
+    // Check for performance indicators
+    const lowMemory = navigator.deviceMemory && navigator.deviceMemory < 4;
+    const slowConnection = navigator.connection && 
+        (navigator.connection.effectiveType === 'slow-2g' || 
+         navigator.connection.effectiveType === '2g' ||
+         navigator.connection.effectiveType === '3g');
+    const lowHardware = navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4;
+    
+    return lowMemory || slowConnection || lowHardware;
+}
+
+function optimizeBackgroundAnimations() {
+    // Add CSS class for static backgrounds on low-performance devices
+    const style = document.createElement('style');
+    style.textContent = `
+        .mobile-optimized .matrix-bg::before,
+        .mobile-optimized .circuit-pattern,
+        .mobile-optimized .hex-grid {
+            animation-play-state: paused !important;
+        }
+        
+        .mobile-optimized .particles::before,
+        .mobile-optimized .particles::after {
+            display: none !important;
+        }
+        
+        /* Fallback background for optimized mode */
+        .mobile-optimized .bg-animation {
+            background: linear-gradient(180deg, #000 0%, #0a0a0a 50%, #000 100%);
+        }
+        
+        .mobile-optimized .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(176, 38, 255, 0.05) 0%, transparent 50%);
+            z-index: 1;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function monitorPerformance() {
+    let frameCount = 0;
+    let lastTime = performance.now();
+    let fps = 60;
+    
+    function measureFPS() {
+        frameCount++;
+        const currentTime = performance.now();
+        
+        if (currentTime >= lastTime + 1000) {
+            fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+            frameCount = 0;
+            lastTime = currentTime;
+            
+            // If FPS drops below 30, disable all animations
+            if (fps < 30) {
+                console.log(`⚠️ Low FPS detected (${fps}), disabling animations...`);
+                document.body.classList.add('low-performance');
+                
+                const lowPerfStyle = document.createElement('style');
+                lowPerfStyle.textContent = `
+                    .low-performance * {
+                        animation: none !important;
+                        transition: none !important;
+                    }
+                    .low-performance .bg-animation {
+                        display: none !important;
+                    }
+                `;
+                document.head.appendChild(lowPerfStyle);
+                return; // Stop monitoring
+            }
+        }
+        
+        requestAnimationFrame(measureFPS);
+    }
+    
+    // Start monitoring after page load
+    setTimeout(() => {
+        requestAnimationFrame(measureFPS);
+    }, 2000);
+}
+
+// Initialize optimizations when DOM is ready
+document.addEventListener('DOMContentLoaded', initMobileOptimizations);
+
 // DOM Elements
 const enterVerseBtn = document.getElementById('enterVerse');
 const introOverlay = document.getElementById('introOverlay');
@@ -329,10 +448,11 @@ function initGameCardEffects() {
             }
         });
         
-        card.addEventListener('click', () => {
-            const gameName = card.dataset.game;
-            showGameModal(gameName);
-        });
+        // Disabled game card click functionality
+        // card.addEventListener('click', () => {
+        //     const gameName = card.dataset.game;
+        //     showGameModal(gameName);
+        // });
     });
 }
 
@@ -1639,7 +1759,7 @@ function triggerGlitchEffect() {
 // Cyberpunk Intro Animation System
 const introAnimation = {
     isPlaying: false,
-    duration: 6000, // 6 seconds total
+    duration: 6000, // 6 seconds total (reduced for mobile)
     
     // Welcome messages to type out
     messages: [
@@ -1648,6 +1768,13 @@ const introAnimation = {
         "WELCOME TO MONKEYVERSE",
         "ENTERING THE MATRIX..."
     ],
+    
+    // Check if device should have simplified intro
+    shouldSimplify() {
+        return document.body.classList.contains('mobile-optimized') || 
+               document.body.classList.contains('low-performance') ||
+               window.innerWidth < 768;
+    },
     
     // Start the intro sequence
     start() {
@@ -1661,7 +1788,15 @@ const introAnimation = {
         }
         this.isPlaying = true;
         
-        // Start ambient hacking sounds
+        // Check if we should simplify for mobile/low-performance
+        if (this.shouldSimplify()) {
+            console.log('📱 Using simplified intro for mobile/low-performance device');
+            this.duration = 3000; // Shorter duration for mobile
+            this.startSimplifiedIntro();
+            return;
+        }
+        
+        // Start ambient hacking sounds (only on desktop)
         hackingAudio.playAmbientHackingSounds();
         
         // Show intro overlay
@@ -1691,6 +1826,55 @@ const introAnimation = {
         } else {
             console.error('introOverlay element not found!');
         }
+    },
+    
+    // Simplified intro for mobile/low-performance devices
+    startSimplifiedIntro() {
+        if (introOverlay) {
+            introOverlay.style.display = 'flex';
+            introOverlay.style.opacity = '0';
+            
+            // Add mobile-specific class
+            introOverlay.classList.add('mobile-intro');
+            
+            // Quick fade in
+            setTimeout(() => {
+                introOverlay.style.opacity = '1';
+            }, 50);
+            
+            // Only show typing without complex animations
+            this.startSimpleTypingSequence();
+            
+            // Complete intro after shorter duration
+            setTimeout(() => {
+                this.complete();
+            }, this.duration);
+        }
+    },
+    
+    // Simplified typing sequence for mobile
+    startSimpleTypingSequence() {
+        const terminalContent = document.querySelector('.terminal-content');
+        if (!terminalContent) return;
+        
+        const messages = ["WELCOME TO MONKEYVERSE", "ENTERING THE MATRIX..."];
+        let currentMessageIndex = 0;
+        
+        const typeMessage = () => {
+            if (currentMessageIndex >= messages.length) return;
+            
+            const messageElement = document.createElement('div');
+            messageElement.className = 'terminal-line simple-line';
+            messageElement.textContent = `> ${messages[currentMessageIndex]}`;
+            terminalContent.appendChild(messageElement);
+            
+            currentMessageIndex++;
+            if (currentMessageIndex < messages.length) {
+                setTimeout(typeMessage, 800);
+            }
+        };
+        
+        typeMessage();
     },
     
     // Animate the SVG binary mask

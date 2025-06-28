@@ -28,6 +28,10 @@ body {
     height: 100%;
     z-index: -1;
     pointer-events: none;
+    /* Performance optimizations */
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .matrix-bg {
@@ -38,6 +42,9 @@ body {
     height: 100%;
     background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
     opacity: 0.9;
+    /* Performance optimizations */
+    will-change: auto;
+    transform: translateZ(0);
 }
 
 .matrix-bg::before {
@@ -52,6 +59,9 @@ body {
         radial-gradient(circle at 80% 80%, rgba(176, 38, 255, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 60%, rgba(0, 255, 140, 0.1) 0%, transparent 50%);
     animation: pulse 8s ease-in-out infinite;
+    /* Performance optimizations */
+    will-change: opacity;
+    transform: translateZ(0);
 }
 
 .circuit-pattern {
@@ -65,6 +75,9 @@ body {
         linear-gradient(0deg, transparent 95%, rgba(0, 255, 255, 0.1) 100%);
     background-size: 50px 50px;
     animation: circuitMove 20s linear infinite;
+    /* Performance optimizations */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .hex-grid {
@@ -77,6 +90,9 @@ body {
         radial-gradient(circle, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
     background-size: 30px 30px;
     animation: hexMove 25s linear infinite;
+    /* Performance optimizations */
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 .particles {
@@ -85,6 +101,9 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
+    /* Performance optimizations */
+    will-change: auto;
+    transform: translateZ(0);
 }
 
 .particles::before,
@@ -96,11 +115,156 @@ body {
     background: #00ffff;
     border-radius: 50%;
     animation: particle1 6s linear infinite, glow 2s ease-in-out infinite alternate;
+    /* Performance optimizations */
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
 }
 
 .particles::after {
     animation: particle2 8s linear infinite, glow 3s ease-in-out infinite alternate;
     background: #b026ff;
+}
+
+/* Mobile-optimized background animations */
+@media (max-width: 1024px) {
+    /* Reduce animation complexity on tablets and below */
+    .matrix-bg::before {
+        animation: pulse 12s ease-in-out infinite;
+    }
+    
+    .circuit-pattern {
+        animation: circuitMove 30s linear infinite;
+    }
+    
+    .hex-grid {
+        animation: hexMove 35s linear infinite;
+    }
+    
+    .particles::before,
+    .particles::after {
+        animation: particle1 10s linear infinite;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Simplified animations for mobile devices */
+    .circuit-pattern {
+        background-size: 80px 80px;
+        animation: circuitMove 40s linear infinite;
+    }
+    
+    .hex-grid {
+        background-size: 60px 60px;
+        animation: hexMove 45s linear infinite;
+    }
+    
+    .particles::before,
+    .particles::after {
+        width: 1px;
+        height: 1px;
+        animation: mobileParticle 15s linear infinite;
+    }
+    
+    .particles::after {
+        animation-delay: 7.5s;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Static background for very small devices to prevent performance issues */
+    .matrix-bg::before {
+        animation: none;
+        background-image: 
+            radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.08) 0%, transparent 60%),
+            radial-gradient(circle at 70% 70%, rgba(176, 38, 255, 0.08) 0%, transparent 60%);
+    }
+    
+    .circuit-pattern {
+        animation: none;
+        background-size: 100px 100px;
+    }
+    
+    .hex-grid {
+        animation: none;
+        background-size: 80px 80px;
+    }
+    
+    .particles::before,
+    .particles::after {
+        display: none; /* Remove particles completely on small devices */
+    }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    .matrix-bg::before,
+    .circuit-pattern,
+    .hex-grid,
+    .particles::before,
+    .particles::after {
+        animation: none !important;
+    }
+    
+    .matrix-bg::before {
+        background-image: 
+            radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.08) 0%, transparent 60%),
+            radial-gradient(circle at 70% 70%, rgba(176, 38, 255, 0.08) 0%, transparent 60%);
+    }
+}
+
+/* Additional performance optimization for older devices */
+@media (max-resolution: 150dpi) and (max-width: 768px) {
+    .bg-animation {
+        display: none;
+    }
+    
+    body {
+        background: linear-gradient(180deg, #000 0%, #0a0a0a 50%, #000 100%);
+        background-attachment: fixed;
+    }
+    
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(circle at 25% 25%, rgba(0, 255, 255, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 75% 75%, rgba(176, 38, 255, 0.05) 0%, transparent 50%);
+        z-index: -1;
+        pointer-events: none;
+    }
+}
+
+/* Mobile intro optimizations */
+.mobile-intro {
+    animation: none !important;
+}
+
+.mobile-intro .intro-particles,
+.mobile-intro .intro-scanlines,
+.mobile-intro .intro-glitch-bg {
+    display: none !important;
+}
+
+.mobile-intro .binary-mask-container {
+    opacity: 0.7;
+    animation: none !important;
+}
+
+.mobile-intro .terminal-content {
+    animation: none !important;
+}
+
+.simple-line {
+    opacity: 1 !important;
+    animation: none !important;
+    color: #00ffff;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    margin: 5px 0;
 }
 
 /* Navigation */
@@ -932,6 +1096,20 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    /* Performance optimization: reduce background complexity on mobile */
+    .bg-animation {
+        will-change: auto;
+    }
+    
+    .matrix-bg::before {
+        will-change: opacity;
+    }
+    
+    .circuit-pattern,
+    .hex-grid {
+        will-change: transform;
+    }
+    
     /* Mobile layout: stack vertically with monkey on top */
     .hero {
         flex-direction: column;
@@ -3309,6 +3487,20 @@ body {
 @keyframes particle2 {
     0% { transform: translate(100vw, 100vh) rotate(0deg); }
     100% { transform: translate(-100px, -100px) rotate(-360deg); }
+}
+
+@keyframes mobileParticle {
+    0% { 
+        transform: translate(0, 100vh) scale(0.5);
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.6;
+    }
+    100% { 
+        transform: translate(50vw, -100px) scale(0.8);
+        opacity: 0;
+    }
 }
 
 @keyframes glow {
