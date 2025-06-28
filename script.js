@@ -34,7 +34,9 @@ function disableBackgroundAnimations() {
         /* Ensure mobile animations are visible and working */
         .mobile-optimized .mobile-hacker-dots,
         .mobile-optimized .mobile-scan-lines,
-        .mobile-optimized .mobile-binary {
+        .mobile-optimized .mobile-binary,
+        .mobile-optimized .mobile-boxes,
+        .mobile-optimized .mobile-floating-boxes {
             display: block !important;
         }
         

@@ -137,9 +137,10 @@ body {
         width: 100%;
         height: 100%;
         background-image: 
-            linear-gradient(90deg, transparent 96%, rgba(0, 255, 255, 0.15) 98%, transparent 100%),
-            linear-gradient(0deg, transparent 96%, rgba(0, 255, 255, 0.15) 98%, transparent 100%);
-        background-size: 120px 120px;
+            linear-gradient(90deg, transparent 94%, rgba(0, 255, 255, 0.2) 96%, transparent 98%),
+            linear-gradient(0deg, transparent 94%, rgba(0, 255, 255, 0.2) 96%, transparent 98%),
+            linear-gradient(45deg, transparent 97%, rgba(176, 38, 255, 0.15) 98%, transparent 99%);
+        background-size: 60px 60px, 60px 60px, 80px 80px;
         animation: mobileMatrix 20s linear infinite;
         z-index: 2;
     }
@@ -156,8 +157,8 @@ body {
     .mobile-hacker-dots::after {
         content: '';
         position: absolute;
-        width: 4px;
-        height: 4px;
+        width: 6px;
+        height: 6px;
         background: rgba(0, 255, 255, 0.8);
         border-radius: 50%;
         box-shadow: 
@@ -180,6 +181,29 @@ body {
             0 0 15px rgba(176, 38, 255, 0.6),
             0 0 25px rgba(176, 38, 255, 0.3);
         animation-delay: 4s;
+    }
+    
+    /* Additional mobile dots for more coverage */
+    .mobile-hacker-dots::before {
+        box-shadow: 
+            0 0 15px rgba(0, 255, 255, 0.6),
+            0 0 25px rgba(0, 255, 255, 0.3),
+            150px 200px 0 -2px rgba(0, 255, 140, 0.6),
+            300px 100px 0 -1px rgba(176, 38, 255, 0.5),
+            200px 350px 0 -2px rgba(0, 255, 255, 0.4),
+            80px 450px 0 -1px rgba(176, 38, 255, 0.6),
+            350px 300px 0 -2px rgba(0, 255, 140, 0.5);
+    }
+    
+    .mobile-hacker-dots::after {
+        box-shadow: 
+            0 0 15px rgba(176, 38, 255, 0.6),
+            0 0 25px rgba(176, 38, 255, 0.3),
+            -180px -150px 0 -1px rgba(0, 255, 255, 0.5),
+            -250px 50px 0 -2px rgba(0, 255, 140, 0.6),
+            -120px -300px 0 -1px rgba(176, 38, 255, 0.4),
+            -300px -100px 0 -2px rgba(0, 255, 255, 0.5),
+            -80px 150px 0 -1px rgba(0, 255, 140, 0.6);
     }
     
     /* Mobile scan lines effect */
@@ -226,6 +250,59 @@ body {
     .mobile-binary::after {
         content: '01000101 01010010 00100000';
         display: block;
+    }
+    
+    /* Additional mobile box elements */
+    .mobile-boxes {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+    }
+    
+    .mobile-boxes::before {
+        content: '';
+        position: absolute;
+        top: 30%;
+        left: 20%;
+        width: 25px;
+        height: 25px;
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        background: rgba(0, 255, 255, 0.05);
+        animation: mobileBoxPulse 6s ease-in-out infinite;
+        animation-delay: 1s;
+    }
+    
+    .mobile-boxes::after {
+        content: '';
+        position: absolute;
+        top: 60%;
+        right: 25%;
+        width: 20px;
+        height: 20px;
+        border: 1px solid rgba(176, 38, 255, 0.3);
+        background: rgba(176, 38, 255, 0.05);
+        animation: mobileBoxPulse 7s ease-in-out infinite;
+        animation-delay: 3s;
+    }
+    
+    /* More floating boxes using box-shadow */
+    .mobile-floating-boxes {
+        position: absolute;
+        top: 45%;
+        left: 70%;
+        width: 15px;
+        height: 15px;
+        border: 1px solid rgba(0, 255, 140, 0.4);
+        background: rgba(0, 255, 140, 0.08);
+        z-index: 2;
+        animation: mobileFloatingBox 9s ease-in-out infinite;
+        box-shadow: 
+            -200px -100px 0 -5px rgba(0, 255, 255, 0.3),
+            -150px 150px 0 -3px rgba(176, 38, 255, 0.3),
+            100px -200px 0 -4px rgba(0, 255, 140, 0.3),
+            -300px 80px 0 -6px rgba(0, 255, 255, 0.2),
+            150px 200px 0 -2px rgba(176, 38, 255, 0.4);
     }
     
     /* Ensure desktop animations are hidden on mobile */
@@ -3575,6 +3652,34 @@ body {
     }
     75% {
         opacity: 0.6;
+    }
+}
+
+@keyframes mobileBoxPulse {
+    0%, 100% { 
+        opacity: 0.3;
+        transform: scale(1);
+        border-color: rgba(0, 255, 255, 0.3);
+    }
+    50% { 
+        opacity: 0.8;
+        transform: scale(1.1);
+        border-color: rgba(0, 255, 255, 0.7);
+    }
+}
+
+@keyframes mobileFloatingBox {
+    0%, 100% { 
+        opacity: 0.4;
+        transform: translateY(0px) rotate(0deg);
+    }
+    33% { 
+        opacity: 0.8;
+        transform: translateY(-10px) rotate(2deg);
+    }
+    66% { 
+        opacity: 0.6;
+        transform: translateY(5px) rotate(-1deg);
     }
 }
 
